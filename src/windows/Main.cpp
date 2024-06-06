@@ -209,7 +209,7 @@ void ProperlySizeControls(HWND hWnd)
 	GetClientRect(hWnd, &rect);
 	rcClient = rect;
 
-	int scaled10 = ScaleByDPI(10);
+	int scaled10 = ScaleByDPI(1);
 
 	rect.left   += scaled10;
 	rect.top    += scaled10;

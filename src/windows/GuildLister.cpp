@@ -11,6 +11,8 @@
 
 #define BORDER_SIZE GUILD_LISTER_BORDER_SIZE
 
+
+HBRUSH guildlistercolor = CreateSolidBrush(RGB(195, 181, 232));
 WNDCLASS GuildLister::g_GuildListerClass;
 WNDCLASS GuildLister::g_GuildListerParentClass;
 GuildLister::GuildLister() {}
@@ -314,7 +316,7 @@ void GuildLister::DrawServerIcon(HDC hdc, HBITMAP hicon, int& y, RECT& rect, Sno
 
 		int pfpBorderSize2 = GetProfileBorderRenderSize();
 
-		FillRect(hdc, &rcProfile, GetSysColorBrush(GUILD_LISTER_COLOR));
+		FillRect(hdc, &rcProfile, guildlistercolor);
 		DrawIconEx(hdc, rect.left + BORDER_SIZE, rect.top + BORDER_SIZE + y, hborder, pfpBorderSize2, pfpBorderSize2, 0, NULL, DI_COMPAT | DI_NORMAL);
 		DrawBitmap(hdc, hicon, rect.left + BORDER_SIZE + ScaleByDPI(6), rect.top + BORDER_SIZE + y + ScaleByDPI(4), NULL, CLR_NONE, GetProfilePictureSize(), GetProfilePictureSize(), hasAlpha);
 
@@ -593,7 +595,7 @@ LRESULT CALLBACK GuildLister::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 					RECT rc = rect;
 					rc.top += y;
 					rc.bottom = rc.top + C_GUILD_GAP_HEIGHT;
-					FillRect(hdc, &rc, GetSysColorBrush(GUILD_LISTER_COLOR));
+					FillRect(hdc, &rc, guildlistercolor);
 					COLORREF oldPenColor = ri::SetDCPenColor(hdc, GetSysColor(COLOR_3DLIGHT));
 					POINT pt2;
 					MoveToEx(hdc, rc.left + BORDER_SIZE, rc.top + BORDER_SIZE, &pt2);
@@ -645,9 +647,9 @@ LRESULT CALLBACK GuildLister::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 			finalRect.top = y;
 
 			if (initialRect.top < initialRect.bottom)
-				FillRect(hdc, &initialRect, GetSysColorBrush(GUILD_LISTER_COLOR));
+				FillRect(hdc, &initialRect, guildlistercolor);
 			if (finalRect.top < finalRect.bottom)
-				FillRect(hdc, &finalRect, GetSysColorBrush(GUILD_LISTER_COLOR));
+				FillRect(hdc, &finalRect, guildlistercolor);
 
 			MoveToEx(hdc, pt.x, pt.y, NULL);
 
@@ -678,7 +680,7 @@ void GuildLister::InitializeClass()
 	WNDCLASS& wc = g_GuildListerClass;
 
 	wc.lpszClassName = T_GUILD_LISTER_CLASS;
-	wc.hbrBackground = GetSysColorBrush(GUILD_LISTER_COLOR);
+	wc.hbrBackground = guildlistercolor;
 	wc.style         = 0;
 	wc.hCursor       = LoadCursor(0, IDC_ARROW);
 	wc.lpfnWndProc   = GuildLister::WndProc;
